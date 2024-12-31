@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .quiz-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      background: #007bff;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .result {
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Simple Quiz</h1>
+    <div id="question"></div>
+    <div id="answers"></div>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      { question: "What is 2 + 2?", answers: ["3", "4", "5"], correct: 1 },
+      { question: "What is the capital of France?", answers: ["London", "Paris", "Berlin"], correct: 1 },
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const quizContainer = document.querySelector(".quiz-container");
+      const questionEl = document.getElementById("question");
+      const answersEl = document.getElementById("answers");
+      const resultEl = document.getElementById("result");
+
+      if (currentQuestion < questions.length) {
+        const q = questions[currentQuestion];
+        questionEl.innerText = q.question;
+        answersEl.innerHTML = "";
+        q.answers.forEach((answer, index) => {
+          const btn = document.createElement("button");
+          btn.innerText = answer;
+          btn.onclick = () => {
+            if (index === q.correct) score++;
+            currentQuestion++;
+            loadQuestion();
+          };
+          answersEl.appendChild(btn);
+        });
+        resultEl.innerText = "";
+      } else {
+        questionEl.innerText = "";
+        answersEl.innerHTML = "";
+        resultEl.innerText = You scored ${score} out of ${questions.length}!;
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
